@@ -1,0 +1,11 @@
+customer_id,customer_name,email,phone,address,city,state,country,postal_code,customer_segment,registration_date
+1,John Doe,john.doe@email.com,+1-555-0101,123 Main St,New York,NY,USA,10001,Premium,2023-01-15
+2,Jane Smith,jane.smith@email.com,+1-555-0102,456 Oak Ave,Los Angeles,CA,USA,90210,Standard,2023-02-20
+3,Bob Johnson,bob.johnson@email.com,+1-555-0103,789 Pine Rd,Chicago,IL,USA,60601,Basic,2023-03-10
+4,Alice Brown,alice.brown@email.com,+1-555-0104,321 Elm St,Houston,TX,USA,77001,Premium,2023-04-05
+5,Charlie Wilson,charlie.w@email.com,+1-555-0105,654 Cedar Ln,Phoenix,AZ,USA,85001,Standard,2023-05-12
+6,Diana Davis,diana.davis@email.com,+1-555-0106,987 Maple Dr,Philadelphia,PA,USA,19101,Basic,2023-06-18
+7,Eve Martinez,eve.m@email.com,+1-555-0107,147 Birch St,San Antonio,TX,USA,78201,Premium,2023-07-22
+8,Frank Garcia,frank.garcia@email.com,+1-555-0108,258 Walnut Ave,San Diego,CA,USA,92101,Standard,2023-08-30
+9,Grace Lee,grace.lee@email.com,+1-555-0109,369 Spruce Rd,Dallas,TX,USA,75201,Basic,2023-09-14
+10,Harry Kim,harry.kim@email.com,+1-555-0110,470 Aspen Pl,Detroit,MI,USA,48201,Premium,2023-10-01

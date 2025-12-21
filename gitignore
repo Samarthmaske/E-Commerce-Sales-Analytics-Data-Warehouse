@@ -1,0 +1,118 @@
+# .gitignore - Git ignore patterns for E-Commerce Data Warehouse
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+.envrc
+
+# Database Credentials
+config.py
+!config.py.example
+secrets/
+*.key
+*.pem
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+venv/
+ENV/
+env/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.project
+.pydevproject
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# Testing
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+htmlcov/
+
+# Data Files (Optional - use with caution)
+data/raw/
+data/processed/
+*.csv
+*.xlsx
+*.xls
+!data/sample_data/  # Keep sample data for testing
+
+# Backups
+backups/
+*.backup
+*.bak
+*.sql
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# AWS
+.aws/
+aws_credentials
+
+# Temporary Files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+*.pgdump
+
+# Documentation
+site/
+docs/_build/
+
+# MacOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db

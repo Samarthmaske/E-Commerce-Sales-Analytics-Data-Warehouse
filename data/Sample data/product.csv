@@ -1,0 +1,16 @@
+product_id,product_name,sku,category,subcategory,brand,unit_cost,list_price,active_status,created_date
+1,Laptop Pro Ultra,LAP001,Electronics,Laptops,TechCorp,500.00,999.99,TRUE,2023-01-01
+2,Wireless Mouse Pro,MOU001,Electronics,Mice,TechCorp,10.00,29.99,TRUE,2023-01-01
+3,Mechanical Keyboard,KEY001,Electronics,Keyboards,TechCorp,45.00,89.99,TRUE,2023-01-01
+4,32GB USB Drive,USB001,Electronics,Storage,TechCorp,8.00,19.99,TRUE,2023-01-15
+5,Office Chair Pro,CHA001,Furniture,Chairs,OfficeMax,75.00,199.99,TRUE,2023-02-01
+6,Executive Desk,DES001,Furniture,Desks,OfficeMax,250.00,599.99,TRUE,2023-02-01
+7,File Cabinet,FIL001,Furniture,Storage,OfficeMax,120.00,299.99,TRUE,2023-02-15
+8,Wireless Headphones,HEA001,Electronics,Audio,SoundWave,35.00,79.99,TRUE,2023-03-01
+9,Bluetooth Speaker,SPK001,Electronics,Audio,SoundWave,25.00,59.99,TRUE,2023-03-01
+10,Monitor 27 Inch,MON001,Electronics,Monitors,TechCorp,120.00,249.99,TRUE,2023-03-15
+11,Stapler Pro,STP001,Office Supplies,Desk Supplies,OfficeMax,5.00,12.99,TRUE,2023-04-01
+12,Pens Pack 12,PEN001,Office Supplies,Writing,OfficeMax,3.00,8.99,TRUE,2023-04-01
+13,Notebooks Pack,NOT001,Office Supplies,Paper,OfficeMax,15.00,29.99,TRUE,2023-04-15
+14,Smartphone Pro,PHN001,Electronics,Phones,MobileTech,300.00,699.99,TRUE,2023-05-01
+15,Tablet 10 Inch,TAB001,Electronics,Tablets,MobileTech,150.00,399.99,TRUE,2023-05-01
