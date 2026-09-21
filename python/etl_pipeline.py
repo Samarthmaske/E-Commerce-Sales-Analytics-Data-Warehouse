@@ -72,7 +72,14 @@ class ETLPipeline:
             # This avoids the "multi-statement capability disabled" error in TiDB/MySQL
             statements = [s.strip() for s in sql_script.split(';') if s.strip()]
             for statement in statements:
-                self.cursor.execute(statement)
+                try:
+                    self.cursor.execute(statement)
+                except Exception as e:
+                    # 1061: Duplicate key name (Index already exists)
+                    if hasattr(e, 'args') and e.args[0] == 1061:
+                        logger.debug("Index already exists, skipping.")
+                    else:
+                        raise e
                 
             self.conn.commit()
             logger.info(f"Successfully executed script: {script_path}")
