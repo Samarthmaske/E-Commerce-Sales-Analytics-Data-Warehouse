@@ -1,0 +1,6 @@
+salesperson_id,salesperson_name,email,phone,department,region,manager_id,hire_date
+1,Salesperson 1,sp1@email.com,+1-555-0201,Sales,North America,,2023-01-01
+2,Salesperson 2,sp2@email.com,+1-555-0202,Sales,North America,1,2023-01-01
+3,Salesperson 3,sp3@email.com,+1-555-0203,Sales,North America,1,2023-01-01
+4,Salesperson 4,sp4@email.com,+1-555-0204,Sales,North America,1,2023-01-01
+5,Salesperson 5,sp5@email.com,+1-555-0205,Sales,North America,1,2023-01-01
