@@ -17,7 +17,9 @@ DB_CONFIG = {
     'database': os.getenv('DB_NAME', 'ecommerce_dw'),
     'user': os.getenv('DB_USER', 'mysql_user'),
     'password': os.getenv('DB_PASSWORD', 'your_password'),
-    'connect_timeout': 10
+    'connect_timeout': 10,
+    'ssl_verify_cert': True,
+    'ssl_verify_identity': True
 }
 
 # Data Files Configuration
