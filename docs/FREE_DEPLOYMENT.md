@@ -47,14 +47,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         
-    # Optional: If you need system dependencies for psycopg2
-    - name: Install System Dependencies
-      run: sudo apt-get install -y libpq-dev gcc
-
     - name: Run ETL Pipeline
       env:
         DB_HOST: ${{ secrets.DB_HOST }}
-        DB_PORT: ${{ secrets.DB_PORT || '5432' }}
+        DB_PORT: ${{ secrets.DB_PORT || '3306' }}
         DB_NAME: ${{ secrets.DB_NAME }}
         DB_USER: ${{ secrets.DB_USER }}
         DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
