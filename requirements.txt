@@ -8,11 +8,11 @@ sqlalchemy==2.0.20
 
 # Data Quality & Validation
 great-expectations==0.17.12
-pandera==0.16.1
+pandera
 
 # AWS Integration
 boto3==1.28.30
-aws-cdk-lib==2.100.0
+aws-cdk-lib
 
 # Configuration & Environment
 python-dotenv==1.0.0
