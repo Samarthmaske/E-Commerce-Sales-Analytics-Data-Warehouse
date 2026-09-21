@@ -282,6 +282,9 @@ class ETLPipeline:
         """Create performance indexes"""
         logger.info("Creating performance indexes...")
         script_path = 'sql/schema/03_indexes.sql'
+        if not os.path.exists(script_path):
+            logger.info(f"Index script {script_path} not found. Skipping.")
+            return True
         return self.run_sql_script(script_path)
     
     def run_quality_checks(self):

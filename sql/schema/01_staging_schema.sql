@@ -14,7 +14,7 @@ CREATE SCHEMA IF NOT EXISTS staging;
 -- =============================================================================
 
 -- Staging table for customers
-CREATE TABLE staging.stg_customers (
+CREATE TABLE IF NOT EXISTS staging.stg_customers (
     customer_id INT PRIMARY KEY,
     customer_name VARCHAR(255) NOT NULL,
     email VARCHAR(255),
@@ -30,7 +30,7 @@ CREATE TABLE staging.stg_customers (
 );
 
 -- Staging table for products
-CREATE TABLE staging.stg_products (
+CREATE TABLE IF NOT EXISTS staging.stg_products (
     product_id INT PRIMARY KEY,
     product_name VARCHAR(255) NOT NULL,
     sku VARCHAR(50) UNIQUE,
@@ -45,7 +45,7 @@ CREATE TABLE staging.stg_products (
 );
 
 -- Staging table for sales orders
-CREATE TABLE staging.stg_sales (
+CREATE TABLE IF NOT EXISTS staging.stg_sales (
     sale_id INT PRIMARY KEY,
     customer_id INT NOT NULL,
     product_id INT NOT NULL,
@@ -64,7 +64,7 @@ CREATE TABLE staging.stg_sales (
 );
 
 -- Staging table for inventory
-CREATE TABLE staging.stg_inventory (
+CREATE TABLE IF NOT EXISTS staging.stg_inventory (
     inventory_id INT PRIMARY KEY,
     product_id INT NOT NULL,
     warehouse_id VARCHAR(20),
@@ -77,7 +77,7 @@ CREATE TABLE staging.stg_inventory (
 );
 
 -- Staging table for salespersons
-CREATE TABLE staging.stg_salesperson (
+CREATE TABLE IF NOT EXISTS staging.stg_salesperson (
     salesperson_id INT PRIMARY KEY,
     salesperson_name VARCHAR(255) NOT NULL,
     email VARCHAR(255),
@@ -106,7 +106,7 @@ CREATE INDEX idx_stg_inventory_product ON staging.stg_inventory(product_id);
 -- AUDIT TABLE - Track data quality issues
 -- =============================================================================
 
-CREATE TABLE staging.data_quality_audit (
+CREATE TABLE IF NOT EXISTS staging.data_quality_audit (
     audit_id INT AUTO_INCREMENT PRIMARY KEY,
     table_name VARCHAR(100),
     issue_type VARCHAR(100),

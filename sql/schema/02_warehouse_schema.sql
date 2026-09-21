@@ -14,7 +14,7 @@ CREATE SCHEMA IF NOT EXISTS warehouse;
 -- =============================================================================
 
 -- Dimension: Date (Time Dimension)
-CREATE TABLE warehouse.dim_date (
+CREATE TABLE IF NOT EXISTS warehouse.dim_date (
     date_id INT AUTO_INCREMENT PRIMARY KEY,
     date DATE UNIQUE NOT NULL,
     year INT,
@@ -30,7 +30,7 @@ CREATE TABLE warehouse.dim_date (
 );
 
 -- Dimension: Customers
-CREATE TABLE warehouse.dim_customers (
+CREATE TABLE IF NOT EXISTS warehouse.dim_customers (
     customer_id INT PRIMARY KEY,
     customer_name VARCHAR(255) NOT NULL,
     email VARCHAR(255),
@@ -48,7 +48,7 @@ CREATE TABLE warehouse.dim_customers (
 );
 
 -- Dimension: Products
-CREATE TABLE warehouse.dim_products (
+CREATE TABLE IF NOT EXISTS warehouse.dim_products (
     product_id INT PRIMARY KEY,
     product_name VARCHAR(255) NOT NULL,
     sku VARCHAR(50),
@@ -65,7 +65,7 @@ CREATE TABLE warehouse.dim_products (
 );
 
 -- Dimension: Geography
-CREATE TABLE warehouse.dim_geography (
+CREATE TABLE IF NOT EXISTS warehouse.dim_geography (
     geography_id INT AUTO_INCREMENT PRIMARY KEY,
     city VARCHAR(100),
     state VARCHAR(100),
@@ -79,7 +79,7 @@ CREATE TABLE warehouse.dim_geography (
 );
 
 -- Dimension: Salesperson
-CREATE TABLE warehouse.dim_salesperson (
+CREATE TABLE IF NOT EXISTS warehouse.dim_salesperson (
     salesperson_id INT PRIMARY KEY,
     salesperson_name VARCHAR(255) NOT NULL,
     email VARCHAR(255),
@@ -97,7 +97,7 @@ CREATE TABLE warehouse.dim_salesperson (
 -- =============================================================================
 
 -- Fact: Sales Transactions
-CREATE TABLE warehouse.fact_sales (
+CREATE TABLE IF NOT EXISTS warehouse.fact_sales (
     sale_id INT PRIMARY KEY,
     customer_id INT NOT NULL,
     product_id INT NOT NULL,
@@ -125,7 +125,7 @@ CREATE TABLE warehouse.fact_sales (
 );
 
 -- Fact: Inventory Movement
-CREATE TABLE warehouse.fact_inventory_movement (
+CREATE TABLE IF NOT EXISTS warehouse.fact_inventory_movement (
     movement_id INT AUTO_INCREMENT PRIMARY KEY,
     product_id INT NOT NULL,
     warehouse_id VARCHAR(20),
@@ -177,7 +177,7 @@ CREATE INDEX idx_fact_inventory_warehouse ON warehouse.fact_inventory_movement(w
 -- =============================================================================
 
 -- Summary: Daily Sales by Product
-CREATE VIEW warehouse.mv_daily_sales_by_product AS
+CREATE OR REPLACE VIEW warehouse.mv_daily_sales_by_product AS
 SELECT 
     dd.date,
     dd.year,
@@ -196,7 +196,7 @@ JOIN warehouse.dim_products dp ON fs.product_id = dp.product_id
 GROUP BY dd.date, dd.year, dd.month, dp.product_id, dp.product_name, dp.category;
 
 -- Summary: Monthly Sales by Customer
-CREATE VIEW warehouse.mv_monthly_sales_by_customer AS
+CREATE OR REPLACE VIEW warehouse.mv_monthly_sales_by_customer AS
 SELECT 
     dd.year,
     dd.month,
