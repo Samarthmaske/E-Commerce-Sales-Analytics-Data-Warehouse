@@ -14,6 +14,12 @@ from config import DB_CONFIG, DATA_PATHS, ETL_CONFIG, LOG_CONFIG
 from data_loader import DataLoader
 from data_validator import DataValidator
 
+import os
+
+# Create logs directory if it doesn't exist
+log_file_path = LOG_CONFIG['log_file']
+os.makedirs(os.path.dirname(log_file_path), exist_ok=True)
+
 # Configure logging
 logging.basicConfig(
     level=LOG_CONFIG['log_level'],
