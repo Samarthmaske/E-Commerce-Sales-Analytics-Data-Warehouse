@@ -67,7 +67,13 @@ class ETLPipeline:
         try:
             with open(script_path, 'r') as f:
                 sql_script = f.read()
-            self.cursor.execute(sql_script)
+            
+            # Split the script by semicolon to execute statements individually
+            # This avoids the "multi-statement capability disabled" error in TiDB/MySQL
+            statements = [s.strip() for s in sql_script.split(';') if s.strip()]
+            for statement in statements:
+                self.cursor.execute(statement)
+                
             self.conn.commit()
             logger.info(f"Successfully executed script: {script_path}")
             return True
