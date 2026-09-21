@@ -15,7 +15,7 @@ CREATE SCHEMA IF NOT EXISTS warehouse;
 
 -- Dimension: Date (Time Dimension)
 CREATE TABLE warehouse.dim_date (
-    date_id SERIAL PRIMARY KEY,
+    date_id INT AUTO_INCREMENT PRIMARY KEY,
     date DATE UNIQUE NOT NULL,
     year INT,
     quarter INT,
@@ -66,7 +66,7 @@ CREATE TABLE warehouse.dim_products (
 
 -- Dimension: Geography
 CREATE TABLE warehouse.dim_geography (
-    geography_id SERIAL PRIMARY KEY,
+    geography_id INT AUTO_INCREMENT PRIMARY KEY,
     city VARCHAR(100),
     state VARCHAR(100),
     country VARCHAR(100),
@@ -126,7 +126,7 @@ CREATE TABLE warehouse.fact_sales (
 
 -- Fact: Inventory Movement
 CREATE TABLE warehouse.fact_inventory_movement (
-    movement_id SERIAL PRIMARY KEY,
+    movement_id INT AUTO_INCREMENT PRIMARY KEY,
     product_id INT NOT NULL,
     warehouse_id VARCHAR(20),
     date_id INT NOT NULL,
@@ -177,7 +177,7 @@ CREATE INDEX idx_fact_inventory_warehouse ON warehouse.fact_inventory_movement(w
 -- =============================================================================
 
 -- Summary: Daily Sales by Product
-CREATE MATERIALIZED VIEW warehouse.mv_daily_sales_by_product AS
+CREATE VIEW warehouse.mv_daily_sales_by_product AS
 SELECT 
     dd.date,
     dd.year,
@@ -196,7 +196,7 @@ JOIN warehouse.dim_products dp ON fs.product_id = dp.product_id
 GROUP BY dd.date, dd.year, dd.month, dp.product_id, dp.product_name, dp.category;
 
 -- Summary: Monthly Sales by Customer
-CREATE MATERIALIZED VIEW warehouse.mv_monthly_sales_by_customer AS
+CREATE VIEW warehouse.mv_monthly_sales_by_customer AS
 SELECT 
     dd.year,
     dd.month,
@@ -212,15 +212,4 @@ JOIN warehouse.dim_date dd ON fs.date_id = dd.date_id
 JOIN warehouse.dim_customers dc ON fs.customer_id = dc.customer_id
 GROUP BY dd.year, dd.month, dc.customer_id, dc.customer_name, dc.customer_segment;
 
--- =============================================================================
--- SCHEMA COMMENTS
--- =============================================================================
-
-COMMENT ON SCHEMA warehouse IS 'Production data warehouse with star schema design';
-COMMENT ON TABLE warehouse.fact_sales IS 'Core fact table containing all sales transactions';
-COMMENT ON TABLE warehouse.fact_inventory_movement IS 'Fact table tracking inventory movements across warehouses';
-COMMENT ON TABLE warehouse.dim_date IS 'Time dimension with date attributes and holiday markers';
-COMMENT ON TABLE warehouse.dim_customers IS 'Customer master dimension with demographics';
-COMMENT ON TABLE warehouse.dim_products IS 'Product catalog dimension';
-COMMENT ON TABLE warehouse.dim_geography IS 'Geography dimension for location-based analysis';
-COMMENT ON TABLE warehouse.dim_salesperson IS 'Salesperson dimension with organizational hierarchy';
+-- End of file

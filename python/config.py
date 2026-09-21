@@ -13,9 +13,9 @@ load_dotenv()
 # AWS RDS Configuration
 DB_CONFIG = {
     'host': os.getenv('DB_HOST', 'your-rds-endpoint.rds.amazonaws.com'),
-    'port': int(os.getenv('DB_PORT', 5432)),
+    'port': int(os.getenv('DB_PORT', 3306)),
     'database': os.getenv('DB_NAME', 'ecommerce_dw'),
-    'user': os.getenv('DB_USER', 'postgres'),
+    'user': os.getenv('DB_USER', 'mysql_user'),
     'password': os.getenv('DB_PASSWORD', 'your_password'),
     'connect_timeout': 10
 }
@@ -73,9 +73,9 @@ RETRY_CONFIG = {
 }
 
 def get_db_connection_string():
-    """Generate PostgreSQL connection string"""
+    """Generate MySQL connection string"""
     return (
-        f"postgresql://{DB_CONFIG['user']}:{DB_CONFIG['password']}"
+        f"mysql+pymysql://{DB_CONFIG['user']}:{DB_CONFIG['password']}"
         f"@{DB_CONFIG['host']}:{DB_CONFIG['port']}/{DB_CONFIG['database']}"
     )
 

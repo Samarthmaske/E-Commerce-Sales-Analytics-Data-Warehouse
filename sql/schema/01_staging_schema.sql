@@ -107,7 +107,7 @@ CREATE INDEX idx_stg_inventory_product ON staging.stg_inventory(product_id);
 -- =============================================================================
 
 CREATE TABLE staging.data_quality_audit (
-    audit_id SERIAL PRIMARY KEY,
+    audit_id INT AUTO_INCREMENT PRIMARY KEY,
     table_name VARCHAR(100),
     issue_type VARCHAR(100),
     issue_description TEXT,
@@ -116,13 +116,4 @@ CREATE TABLE staging.data_quality_audit (
     audit_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- =============================================================================
--- COMMENTS - Documentation
--- =============================================================================
-
-COMMENT ON SCHEMA staging IS 'Staging layer for raw data ingestion from source systems';
-COMMENT ON TABLE staging.stg_customers IS 'Raw customer data from source systems';
-COMMENT ON TABLE staging.stg_products IS 'Raw product catalog from source systems';
-COMMENT ON TABLE staging.stg_sales IS 'Raw sales transactions from source systems';
-COMMENT ON TABLE staging.stg_inventory IS 'Raw inventory snapshot from source systems';
-COMMENT ON TABLE staging.stg_salesperson IS 'Raw salesperson master data';
+-- End of file

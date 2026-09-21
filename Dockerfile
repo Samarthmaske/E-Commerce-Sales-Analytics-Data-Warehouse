@@ -3,9 +3,9 @@ FROM python:3.9-slim
 # Set working directory
 WORKDIR /app
 
-# Install system dependencies
+# Install system dependencies (none needed for PyMySQL, but keeping gcc for other Python packages if needed)
 RUN apt-get update && apt-get install -y \
-    libpq-dev gcc \
+    gcc \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements file first for caching

@@ -7,8 +7,8 @@ Author: Samarth Maske
 import logging
 import sys
 from datetime import datetime
-import psycopg2
-from psycopg2.extras import execute_batch
+import pymysql
+
 import pandas as pd
 from config import DB_CONFIG, DATA_PATHS, ETL_CONFIG, LOG_CONFIG
 from data_loader import DataLoader
@@ -40,11 +40,11 @@ class ETLPipeline:
     def connect_database(self):
         """Establish database connection"""
         try:
-            self.conn = psycopg2.connect(**DB_CONFIG)
+            self.conn = pymysql.connect(**DB_CONFIG)
             self.cursor = self.conn.cursor()
-            logger.info("Successfully connected to PostgreSQL database")
+            logger.info("Successfully connected to MySQL database")
             return True
-        except psycopg2.Error as e:
+        except pymysql.Error as e:
             logger.error(f"Database connection error: {e}")
             return False
     
@@ -149,7 +149,7 @@ class ETLPipeline:
     def _populate_dim_date(self):
         """Populate date dimension"""
         sql = """
-        INSERT INTO warehouse.dim_date 
+        INSERT IGNORE INTO warehouse.dim_date 
         (date, year, quarter, month, week, day_of_week, day_name, is_weekend)
         SELECT DISTINCT 
             order_date,
@@ -157,11 +157,11 @@ class ETLPipeline:
             EXTRACT(QUARTER FROM order_date),
             EXTRACT(MONTH FROM order_date),
             EXTRACT(WEEK FROM order_date),
-            EXTRACT(DOW FROM order_date),
-            TO_CHAR(order_date, 'Day'),
-            EXTRACT(DOW FROM order_date) IN (0, 6)
+            DAYOFWEEK(order_date),
+            DAYNAME(order_date),
+            DAYOFWEEK(order_date) IN (1, 7)
         FROM staging.stg_sales
-        ON CONFLICT DO NOTHING;
+        
         """
         self.cursor.execute(sql)
         logger.info("Populated dim_date")
@@ -169,14 +169,14 @@ class ETLPipeline:
     def _populate_dim_customers(self):
         """Populate customer dimension"""
         sql = """
-        INSERT INTO warehouse.dim_customers 
+        INSERT IGNORE INTO warehouse.dim_customers 
         (customer_id, customer_name, email, phone, city, state, country, 
          postal_code, customer_segment, registration_date)
         SELECT 
             customer_id, customer_name, email, phone, city, state, country,
             postal_code, customer_segment, registration_date
         FROM staging.stg_customers
-        ON CONFLICT DO NOTHING;
+        
         """
         self.cursor.execute(sql)
         logger.info("Populated dim_customers")
@@ -184,14 +184,14 @@ class ETLPipeline:
     def _populate_dim_products(self):
         """Populate product dimension"""
         sql = """
-        INSERT INTO warehouse.dim_products 
+        INSERT IGNORE INTO warehouse.dim_products 
         (product_id, product_name, sku, category, subcategory, brand, 
          unit_cost, list_price)
         SELECT 
             product_id, product_name, sku, category, subcategory, brand,
             unit_cost, list_price
         FROM staging.stg_products
-        ON CONFLICT DO NOTHING;
+        
         """
         self.cursor.execute(sql)
         logger.info("Populated dim_products")
@@ -199,11 +199,11 @@ class ETLPipeline:
     def _populate_dim_geography(self):
         """Populate geography dimension"""
         sql = """
-        INSERT INTO warehouse.dim_geography (city, state, country)
+        INSERT IGNORE INTO warehouse.dim_geography (city, state, country)
         SELECT DISTINCT city, state, country
         FROM staging.stg_sales
         WHERE city IS NOT NULL
-        ON CONFLICT DO NOTHING;
+        
         """
         self.cursor.execute(sql)
         logger.info("Populated dim_geography")
@@ -211,12 +211,12 @@ class ETLPipeline:
     def _populate_dim_salesperson(self):
         """Populate salesperson dimension"""
         sql = """
-        INSERT INTO warehouse.dim_salesperson 
+        INSERT IGNORE INTO warehouse.dim_salesperson 
         (salesperson_id, salesperson_name, email, department, region)
         SELECT 
             salesperson_id, salesperson_name, email, department, region
         FROM staging.stg_salesperson
-        ON CONFLICT DO NOTHING;
+        
         """
         self.cursor.execute(sql)
         logger.info("Populated dim_salesperson")
@@ -224,7 +224,7 @@ class ETLPipeline:
     def _populate_fact_sales(self):
         """Populate sales fact table"""
         sql = """
-        INSERT INTO warehouse.fact_sales
+        INSERT IGNORE INTO warehouse.fact_sales
         (sale_id, customer_id, product_id, salesperson_id, date_id, 
          geography_id, quantity, unit_price, discount_percent, total_amount, profit)
         SELECT 
@@ -243,7 +243,7 @@ class ETLPipeline:
         JOIN warehouse.dim_date d ON DATE(s.order_date) = d.date
         LEFT JOIN warehouse.dim_geography g ON s.city = g.city 
             AND s.state = g.state AND s.country = g.country
-        ON CONFLICT DO NOTHING;
+        
         """
         self.cursor.execute(sql)
         logger.info("Populated fact_sales")
@@ -251,7 +251,7 @@ class ETLPipeline:
     def _populate_fact_inventory(self):
         """Populate inventory fact table"""
         sql = """
-        INSERT INTO warehouse.fact_inventory_movement
+        INSERT IGNORE INTO warehouse.fact_inventory_movement
         (product_id, warehouse_id, date_id, quantity_on_hand)
         SELECT DISTINCT
             i.product_id,
@@ -261,7 +261,7 @@ class ETLPipeline:
         FROM staging.stg_inventory i
         CROSS JOIN warehouse.dim_date d
         WHERE d.date <= CURRENT_DATE
-        ON CONFLICT DO NOTHING;
+        
         """
         self.cursor.execute(sql)
         logger.info("Populated fact_inventory")
